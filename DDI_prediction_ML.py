@@ -17,7 +17,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from src import ml
 
 import findspark
-findspark.init("/home/rkarim/spark-2.3.1-bin-hadoop2.7/")
+findspark.init("/home/spark-2.3.1-bin-hadoop2.7/")
 
 from pyspark import SparkConf, SparkContext
 
@@ -69,5 +69,3 @@ all_scores_df = ml.kfoldCV(sc, pairs, classes, embedding_df, clfs, n_run, n_fold
 
 all_scores_df.groupby(['method','run']).mean().groupby('method').mean()
 all_scores_df.to_csv('/home/rkarim/DDI/Results/results/traditional/DBv5_TCV_run_KGloVe.txt',sep='\t', index=False)
-
-
