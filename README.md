@@ -21,12 +21,12 @@ The ml.py and RDF2Vec methods are based on https://github.com/rcelebi/GraphEmbed
 
 ### Citation request
 If you use the code of this repository for your reserch, please consider citing the following paper: 
-    @inproceedings{karim2019ddiconvlstm,
-        title={Drug-Drug Interaction Prediction Based on Knowledge Graph Embeddings and Convolutional-LSTM Network},
-        author={Md. Rezaul Karim, Michael Cochez, Joao Bosco Jares, Mamtaz Uddin, Stefan Decker, and Oya Beyan},
-        booktitle={Proceedings of ACM BCB, ACM, New York, NY, USA, 10 pages},
-        year={2019}
-    }
+     @inproceedings{karim2019ddiconvlstm,
+            title={Drug-Drug Interaction Prediction Based on Knowledge Graph Embeddings and Convolutional-LSTM Network},
+            author={Md. Rezaul Karim, Michael Cochez, Joao Bosco Jares, Mamtaz Uddin, Stefan Decker, and Oya Beyan},
+            booktitle={Proceedings of ACM BCB, ACM, New York, NY, USA, 10 pages},
+            year={2019}
+        }
 
 ### Contributing
 For any questions, feel free to open an issue or contact at rezaul.karim@rwth-aachen.de
