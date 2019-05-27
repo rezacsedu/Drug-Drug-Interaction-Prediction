@@ -10,7 +10,17 @@ In our pipeline, we extract feature vector representation of drugs from the KGs,
 * Keras 
 * TensorFlow.
 
+### How to use this repository
+-- First, collect the DrugBank, KEGG drug, OFFSIDES, and PharmGKB datasets from their website. 
+-- Then convert them into RDF using 5* linked open data principal e.g. convert the data into n-triple or n-quad format. 
+-- Then generate the embeddings, which should provide the feature vector for each drug in the knowledge graphs.
+-- Once you have the feature vectors generated, run the 
+
+### Acknowledgement
+The src/ml.py library and RDF2Vec methods are based on https://github.com/rcelebi/GraphEmbedding4DDI by Remzi Celebi et al. 
+
 ### Citation request
+If you use the code of this repository for your reserch, please consider citing the following paper: 
     @inproceedings{karim2019ddiconvlstm,
         title={Drug-Drug Interaction Prediction Based on Knowledge Graph Embeddings and Convolutional-LSTM Network},
         author={Md. Rezaul Karim, Michael Cochez, Joao Bosco Jares, Mamtaz Uddin, Stefan Decker, and Oya Beyan},
