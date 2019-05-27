@@ -114,6 +114,62 @@ for source in triples:
         num_triples+=len(triples[source][target])
 print ('Number of triples',num_triples)
 
+walks = 5
+path_depth = 10
+paths = randomNWalkUniform(triples, 100, walks, path_depth)
+print('\n'.join(paths))
+
+entities = list(entity2id.values())
+b_triples = sc.broadcast(triples)
+
+import os
+os.environ['HADOOP_HOME'] = "C:/hadoop"
+
+folder = 'C:/Users/admin-karim/Downloads/GraphEmbedding4DDI-master/GraphEmbedding4DDI-master/data/walks5/'
+#if not os.path.isdir(folder):
+    #os.mkdir(folder)
+walks = 250
+maxDepth = 5
+for path_depth in range(1,maxDepth):
+    filename = folder+'randwalks_n%d_depth%d_pagerank_uniform.txt'%(walks, path_depth)
+    print (filename)
+    start_time =time.time()
+    rdd = sc.parallelize(entities).flatMap(lambda n: randomNWalkUniform(b_triples.value, n, walks, path_depth)).persist()
+    rdd.saveAsTextFile(filename)
+    elapsed_time = time.time() - start_time
+    print ('Time elapsed to generate features:',time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
+    
+def saveData(entity2id, relation2id, triples, dirname):
+    if not os.path.isdir(dirname):
+        os.mkdir(dirname)  
+    
+    entity2id_file= open(os.path.join(dirname, 'entity2id.txt'),'w',  encoding='utf-8')
+    relation2id_file = open(os.path.join(dirname, 'relation2id.txt'),'w',  encoding='utf-8')
+    train_file = open(os.path.join(dirname, 'train2id.txt'),'w',  encoding='utf-8')
+
+    train_file.write(str(num_triples)+'\n') 
+    for source in triples:
+        for  target in triples[source]:  
+            hid=source
+            tid =target
+            for rid  in triples[source][target]:
+                train_file.write("%d %d %d\n"%(hid,tid,rid))
+
+    entity2id_file.write(str(len(entity2id))+'\n')  
+    for e in sorted(entity2id, key=entity2id.__getitem__):
+        entity2id_file.write(e+'\t'+str(entity2id[e])+'\n')  
+
+    relation2id_file.write(str(len(relation2id))+'\n')    
+    for r in sorted(relation2id, key=relation2id.__getitem__):
+        relation2id_file.write(r+'\t'+str(relation2id[r])+'\n') 
+        
+    train_file.close()
+    entity2id_file.close()
+    relation2id_file.close()
+
+dirname = 'DB5/'
+saveData(entity2id, relation2id, triples, dirname)    
+    
 import gensim
 class MySentences(object):
     def __init__(self, dirname, filename):
