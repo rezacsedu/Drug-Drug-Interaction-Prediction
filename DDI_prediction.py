@@ -35,16 +35,10 @@ sc = SparkContext(conf=config)
 ddi_df = pd.read_csv("full_DDI.txt", sep='\t')
 ddi_df.head()
 
-featureFilename2 = "Vectors/RDF2Vec/RDF2Vec_sg_300_5_5_15_2_500_d5_uniform.txt" 
-embedding_df2 = pd.read_csv(featureFilename2, delimiter='\t') 
-col_Names = embedding_df2.columns.tolist()
-
-featureFilename = "/home/rkarim/DDI/embedded_drugs_100.txt"
+featureFilename = "vectors/RDF2Vec/RDF2Vec_sg_300_5_5_15_2_500_d5_uniform.txt" 
 embedding_df = pd.read_csv(featureFilename, delimiter='\t') 
-embedding_df = embedding_df.drop(embedding_df.columns[300], axis = 1) 
-embedding_df.columns = col_Names
 
-embedding_df.Entity =embedding_df.Entity.str[-8:-1]
+embedding_df.Entity = embedding_df.Entity.str[-8:-1]
 embedding_df.rename(columns={'Entity':'Drug'}, inplace=True)
 
 len(set(ddi_df.Drug1.unique()).union(ddi_df.Drug2.unique()) )
