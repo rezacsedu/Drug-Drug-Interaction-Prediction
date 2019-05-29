@@ -53,6 +53,24 @@ def Conv_LSTM(num_classes, timesteps, reg):
     
     return model
 
+def model_train(model, number_epoch, train_x, train_y):   
+    optimizer = keras.optimizers.RMSprop(lr=0.01, rho=0.9, epsilon=None, decay=0.0)
+
+    # a stopping function should the validation loss stop improving
+    #earlystop = EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='auto')
+
+    model.compile(loss='categorical_crossentropy', metrics=['accuracy'], optimizer=optimizer)
+    #plot_model(model, show_shapes=True, to_file='ConvLSTM.png')   
+    tensorboardRNN = TensorBoard(log_dir="RNN_logs/{}".format(time()))
+    
+    #for i in range(number_epoch):
+    history1 = model.fit(train_x, train_y, validation_split=0.1, callbacks=[tensorboardRNN], batch_size=32, class_weight = sample_weights, epochs=int(number_epoch), shuffle=False)
+    #model.reset_states()        
+    
+    print(model.summary())
+
+    return model, history1
+
 def multimetric_score(estimator, X_test, y_test, scorers):
     """Return a dict of score for multimetric scoring"""
     scores = {}
