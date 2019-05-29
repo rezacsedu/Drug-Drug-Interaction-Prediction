@@ -31,13 +31,11 @@ config.set('spark.driver.memory', '30g')
 config.set("spark.memory.offHeap.enabled",True)
 config.set("spark.memory.offHeap.size","64g") 
 sc = SparkContext(conf=config)
-print (sc)
 
-
-ddi_df = pd.read_csv("/home/rkarim/DDI/input/full_DDI.txt", sep='\t')
+ddi_df = pd.read_csv("full_DDI.txt", sep='\t')
 ddi_df.head()
 
-featureFilename2 = "/home/rkarim/DDI/vectors/RDF2Vec/RDF2Vec_sg_300_5_5_15_2_500_d5_uniform.txt" 
+featureFilename2 = "Vectors/RDF2Vec/RDF2Vec_sg_300_5_5_15_2_500_d5_uniform.txt" 
 embedding_df2 = pd.read_csv(featureFilename2, delimiter='\t') 
 col_Names = embedding_df2.columns.tolist()
 
@@ -49,17 +47,22 @@ embedding_df.columns = col_Names
 embedding_df.Entity =embedding_df.Entity.str[-8:-1]
 embedding_df.rename(columns={'Entity':'Drug'}, inplace=True)
 
-len(ddi_df)
 len(set(ddi_df.Drug1.unique()).union(ddi_df.Drug2.unique()) )
 pairs, classes = ml.generatePairs(ddi_df, embedding_df)
+
+reg = L1L2(l1=0.01, l2=0.01)
+model = ml.Conv_LSTM(num_classes=2, timesteps=8, reg=reg)
+model.summary()
+convLSTM, history = ml.model_train(model, number_epoch=20)
 
 kNN = KNeighborsClassifier(n_neighbors=3)
 NB = GaussianNB()
 SVM = svm.SVC()
 LR = linear_model.LogisticRegression(C=0.01)
-#RF = ensemble.RandomForestClassifier(n_estimators=5, n_jobs=-1)
-#GBT = ensemble.GradientBoostingClassifier(n_estimators=5, max_leaf_nodes=3,max_depth=3)
-clfs = [('Logistic Regression',LR)]
+RF = ensemble.RandomForestClassifier(n_estimators=5, n_jobs=-1)
+GBT = ensemble.GradientBoostingClassifier(n_estimators=5, max_leaf_nodes=3,max_depth=3)
+
+clfs = [('LR',LR),('SVM',SVM),('NB',NB),('KNN',KNN),('GBT',GBT),('RF',LR),('Conv-LSTM Regression',convLSTM)]
 
 n_seed =100
 n_fold =5 
@@ -68,4 +71,4 @@ n_proportion = 1,
 all_scores_df = ml.kfoldCV(sc, pairs, classes, embedding_df, clfs, n_run, n_fold, n_proportion, n_seed)
 
 all_scores_df.groupby(['method','run']).mean().groupby('method').mean()
-all_scores_df.to_csv('/home/rkarim/DDI/Results/results/traditional/DBv5_TCV_run_KGloVe.txt',sep='\t', index=False)
+all_scores_df.to_csv('Results.txt',sep='\t', index=False)
