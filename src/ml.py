@@ -17,6 +17,41 @@ import networkx as nx
 import random
 import numbers
 
+from keras.layers import Concatenate, Dense, LSTM, Input, concatenate
+
+def Conv_LSTM(num_classes, timesteps, reg):
+    input_layer = Input(shape=(1, 300))
+    
+    conv1 = Conv1D(filters=32, kernel_size=8, strides=2, activation='relu', padding='same')(input_layer)
+    bn1 = BatchNormalization()(conv1)
+    pool1 = MaxPooling1D(pool_size=2, strides=2, padding='same')(bn1)
+    
+    conv2 = Conv1D(filters=32, kernel_size=4, strides=2, activation='relu', padding='same')(pool1)
+    bn2 = BatchNormalization()(conv2)
+    pool2 = MaxPooling1D(pool_size=2, strides=2, padding='same')(bn2)
+    
+    conv3 = Conv1D(filters=32, kernel_size=4, strides=1, activation='relu', padding='same')(pool2)
+    bn3 = BatchNormalization()(conv3)
+    
+    # Global Layers
+    gmaxpl = GlobalMaxPooling1D()(bn3)
+    gmeanpl = GlobalAveragePooling1D()(bn3)
+    mergedlayer = concatenate([gmaxpl, gmeanpl], axis=1)
+    
+    fl = Flatten()(mergedlayer)
+    rv = RepeatVector(300)(mergedlayer)
+    lstm1 = LSTM(128,return_sequences=True)(bn3)
+    do3 = Dropout(0.5)(lstm1)
+    
+    lstm2 = LSTM(64)(do3)
+    do4 = Dropout(0.2)(lstm2)
+    
+    flat = Flatten()(mergedlayer)
+    output_layer = Dense(num_classes, activation='softmax')(mergedlayer)
+    
+    model = Model(inputs=input_layer, outputs=output_layer)  
+    
+    return model
 
 def multimetric_score(estimator, X_test, y_test, scorers):
     """Return a dict of score for multimetric scoring"""
@@ -169,5 +204,3 @@ def kfoldCV(sc, pairs_all, classes_all, embedding_df, clfs, n_run, n_fold, n_pro
         scores_df = scores_df.append(scores)
         
     return scores_df
-
-
