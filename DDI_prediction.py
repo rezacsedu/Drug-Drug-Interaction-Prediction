@@ -37,7 +37,7 @@ model = ml.Conv_LSTM(num_classes = 2, timesteps = 8, reg = reg)
 model.summary()
 convLSTM = ml.model_train(model, number_epoch = 20)
 
-kNN = KNeighborsClassifier(n_neighbors = 3)
+KNN = KNeighborsClassifier(n_neighbors = 3)
 NB = GaussianNB()
 SVM = svm.SVC()
 LR = linear_model.LogisticRegression(C = 0.01)
