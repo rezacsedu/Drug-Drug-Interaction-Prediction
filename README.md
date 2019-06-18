@@ -29,9 +29,9 @@ Already prepared embeddings can be downloaded from the following links with a pa
 * KGlove: https://data.fit.fraunhofer.de/index.php/s/mh2EWlY21lpH4hy
 * RDF2Vec (skip-gram): https://data.fit.fraunhofer.de/index.php/s/SSPWORQEbnGJK04
 * CrossE: https://data.fit.fraunhofer.de/index.php/s/lSgXQ2JujmkqOUK
-* TransE: https://data.fit.fraunhofer.de/index.php/s/lSgXQ2JujmkqOUK 
-* SimpleIE: https://data.fit.fraunhofer.de/index.php/s/lSgXQ2JujmkqOUK
-* PBG: https://data.fit.fraunhofer.de/index.php/s/lSgXQ2JujmkqOUK
+* TransE: https://data.fit.fraunhofer.de/index.php/s/aSGfTubvFiR 
+* SimpleIE: size is large so not available for direct download (please contact author)
+* PBG: size is large so not available for direct download (please contact author)
 
 ### Acknowledgement
 Some concepts are based on https://github.com/rcelebi/GraphEmbedding4DDI by Remzi Celebi et al. 
