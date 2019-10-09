@@ -1,7 +1,7 @@
 ### Drug-Drug Interaction Prediction using Knowledge Graph Embeddings & Conv-LSTM Network
-Implementation of our paper titled "Drug-Drug Interaction Prediction Based on Knowledge Graph Embeddings and Convolutional-LSTM Network" submitted The 10th ACM Conference on Bioinformatics, Computational Biology, and Health Informatics(ACM BCB), 2019.
+Implementation of our paper titled "Drug-Drug Interaction Prediction Based on Knowledge Graph Embeddings and Convolutional-LSTM Network", proc. of The 10th ACM Conference on Bioinformatics, Computational Biology, and Health Informatics(ACM BCB), 2019.
 
-In this paper, we propose a new method for predicting potential DDIs by encompassing over 12,000 drug features from DrugBank, PharmGKB, and KEGG drugs with the help of knowledge graph(KGs). 
+In this paper, we proposed a new method for predicting potential DDIs by encompassing over 12,000 drug features from DrugBank, PharmGKB, and KEGG drugs with the help of knowledge graph(KGs). 
 
 In our pipeline, we extract feature vector representation of drugs from the KGs, using various embedding techniques such as RDF2Vec, TransE, KGloVe, SimplE, CrossE, and PyTorch-BigGraph(PBG). The embedded vectors are then used to train different prediction models.
 
